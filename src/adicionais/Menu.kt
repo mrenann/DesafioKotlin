@@ -3,7 +3,7 @@ package adicionais
 import classes.DigitalHouseManager
 
 fun showMenu() {
-        println("\u001B[0m-----------------------------------------\u001B[34m")
+    println("\u001B[0m-----------------------------------------\u001B[34m")
     println("| 1 | Criar DigitalHouseManager\n" +
             "| 2 | Opções de Cursos\n" +
             "| 3 | Opções de Professores\n" +

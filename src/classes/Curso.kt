@@ -12,8 +12,8 @@ class Curso(val nomeCurso: String, val codigoCurso: Int, var capacidadeCurso: In
         vagasDisponiveis = capacidadeCurso - getVagasOcupadas()
     }
 
-    fun adicionarAluno(aluno: Aluno):Boolean {
-        if(vagasDisponiveis<=0){
+    fun adicionarAluno(aluno: Aluno): Boolean {
+        if (vagasDisponiveis <= 0) {
             return false
         }
         alunosMatriculados.add(aluno)
@@ -39,7 +39,7 @@ class Curso(val nomeCurso: String, val codigoCurso: Int, var capacidadeCurso: In
     }
 
     override fun toString(): String {
-        return "\u001B[0m"+"CURSO ($codigoCurso)$nomeCurso - $capacidadeCurso VAGAS($vagasDisponiveis) [${professorTitular?.let { it } ?: "SEM PROFESSOR TITULAR"} | " +
+        return "\u001B[0m" + "CURSO ($codigoCurso)$nomeCurso - $capacidadeCurso VAGAS($vagasDisponiveis) [${professorTitular?.let { it } ?: "SEM PROFESSOR TITULAR"} | " +
                 "${professorAdjunto?.let { it } ?: "SEM PROFESSOR ADJUNTO"}]"
     }
 }

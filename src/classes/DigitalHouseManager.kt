@@ -18,28 +18,28 @@ class DigitalHouseManager {
 
     }
 
-    fun cursosTemAlunos(curso:Curso?= null):Boolean{
-        curso?.let{
-      return it.alunosMatriculados.isNotEmpty()
-        }?: return false
+    fun cursosTemAlunos(curso: Curso? = null): Boolean {
+        curso?.let {
+            return it.alunosMatriculados.isNotEmpty()
+        } ?: return false
     }
 
-    fun professorAlocado(professor: Professor? = null):Boolean{
-        professor.let{prof ->
-        cursos.forEach {
-            if(it.professorAdjunto?.equals(prof) ?: false || it.professorTitular?.equals(prof) ?: false){
-                return true
+    fun professorAlocado(professor: Professor? = null): Boolean {
+        professor.let { prof ->
+            cursos.forEach {
+                if (it.professorAdjunto?.equals(prof) ?: false || it.professorTitular?.equals(prof) ?: false) {
+                    return true
+                }
             }
-        }
             return false
         }
     }
 
-    fun alunoMatriculado(aluno: Aluno? = null):Boolean {
+    fun alunoMatriculado(aluno: Aluno? = null): Boolean {
         var hasMatricula = false
         var qtdMatriculas = 0
         matriculas.forEach {
-            if(it.aluno.equals(aluno)){
+            if (it.aluno.equals(aluno)) {
                 hasMatricula = true
                 qtdMatriculas++
             }
@@ -47,16 +47,16 @@ class DigitalHouseManager {
         return hasMatricula
     }
 
-    fun returnMatriculaAluno(aluno: Aluno? = null):Matricula? {
+    fun returnMatriculaAluno(aluno: Aluno? = null): Matricula? {
         matriculas.forEach {
-            if(it.aluno.equals(aluno)){
+            if (it.aluno.equals(aluno)) {
                 return it
             }
         }
         return null
     }
 
-    fun excluirRegistroProfessor(codigoProfessor: Int){
+    fun excluirRegistroProfessor(codigoProfessor: Int) {
         var hasProfessor = false
         var professorEncontrado: Professor? = null
 
@@ -71,34 +71,35 @@ class DigitalHouseManager {
 
         when (hasProfessor) {
             true -> {
-                if(professorAlocado(professorEncontrado)){
+                if (professorAlocado(professorEncontrado)) {
                     println("\u001B[31mProfessor está alocado em algum curso\u001B[0m")
                     println("| 1 | Apagar |NDA| Cancelar")
                     print("O que você deseja Fazer ?  ")
-                    val delete:Int = readLine()?.toInt() ?: "0".toInt()
-                    if(delete == 1){
-                       cursos.forEach {
-                           it.professorTitular?.let { titular ->
-                               if(titular.equals(professorEncontrado)) it.professorTitular = null
-                           }
-                           it.professorAdjunto?.let { adjunto ->
-                               if(adjunto.equals(professorEncontrado)) it.professorAdjunto = null
-                           }
+                    val delete: Int = readLine()?.toInt() ?: "0".toInt()
+                    if (delete == 1) {
+                        cursos.forEach {
+                            it.professorTitular?.let { titular ->
+                                if (titular.equals(professorEncontrado)) it.professorTitular = null
+                            }
+                            it.professorAdjunto?.let { adjunto ->
+                                if (adjunto.equals(professorEncontrado)) it.professorAdjunto = null
+                            }
                         }
                         professores.remove(professorEncontrado)
                         println("\u001B[32mProfessor removido com Sucesso!\u001B[0m")
                     }
-                }else {
+                } else {
                     professores.remove(professorEncontrado)
                     println("\u001B[32mProfessor removido com Sucesso!\u001B[0m")
                 }
-            } false -> {
+            }
+            false -> {
                 println("\u001B[31mProfessor Não encontrado!\u001B[0m")
             }
         }
     }
 
-    fun excluirRegistroAluno(codigoAluno: Int){
+    fun excluirRegistroAluno(codigoAluno: Int) {
         var hasAluno = false
         var alunoEncontrado: Aluno? = null
 
@@ -106,29 +107,29 @@ class DigitalHouseManager {
             (it as? Aluno)?.let { aluno ->
                 if (aluno.equalsCodigo(codigoAluno)) {
                     hasAluno = true
-                     alunoEncontrado = aluno
+                    alunoEncontrado = aluno
                 }
             }
         }
 
         when (hasAluno) {
             true -> {
-                if(alunoMatriculado(alunoEncontrado)){
+                if (alunoMatriculado(alunoEncontrado)) {
                     println("\u001B[31mAluno está matriculado em algum curso\u001B[0m")
                     println("| 1 | Apagar |NDA| Cancelar")
                     print("O que você deseja Fazer ?  ")
-                    val delete:Int = readLine()?.toInt() ?: "0".toInt()
-                    if(delete == 1){
+                    val delete: Int = readLine()?.toInt() ?: "0".toInt()
+                    if (delete == 1) {
                         matriculas.reversed().forEach {
-                            if(it.aluno.equals(alunoEncontrado)) {
+                            if (it.aluno.equals(alunoEncontrado)) {
                                 println("${it.aluno.codigoAluno} - ${it.curso.codigoCurso}")
-                                excluirMatriculaAluno(it.aluno.codigoAluno,it.curso.codigoCurso)
+                                excluirMatriculaAluno(it.aluno.codigoAluno, it.curso.codigoCurso)
                             }
                         }
                         alunos.remove(alunoEncontrado)
                         println("\u001B[32mAluno removido com Sucesso!\u001B[0m")
                     }
-                }else {
+                } else {
                     alunos.remove(alunoEncontrado)
                     println("\u001B[32mAluno removido com Sucesso!\u001B[0m")
                 }
@@ -142,35 +143,35 @@ class DigitalHouseManager {
 
     fun excluirCurso(codigoCurso: Int) {
         var hasCurso = false
-        var cursoEncontrado:Curso? = null
+        var cursoEncontrado: Curso? = null
 
         cursos.forEach {
             (it as? Curso)?.let { curso ->
                 if (curso.equalsCodigo(codigoCurso)) {
                     hasCurso = true
-                    cursoEncontrado=it
+                    cursoEncontrado = it
                 }
             }
         }
 
         when (hasCurso) {
             true -> {
-                if(cursosTemAlunos(cursoEncontrado)){
+                if (cursosTemAlunos(cursoEncontrado)) {
                     println("\u001B[31mCurso possui Alunos\u001B[0m")
                     println("| 1 | Apagar |NDA| Cancelar")
                     print("O que você deseja Fazer ?  ")
-                    val delete:Int = readLine()?.toInt() ?: "0".toInt()
-                    if(delete == 1){
+                    val delete: Int = readLine()?.toInt() ?: "0".toInt()
+                    if (delete == 1) {
                         cursoEncontrado?.alunosMatriculados?.clear()
                         matriculas.reversed().forEach {
-                            if(it.curso.equals(cursoEncontrado)) {
-                               matriculas.remove(it)
+                            if (it.curso.equals(cursoEncontrado)) {
+                                matriculas.remove(it)
                             }
                         }
                         cursos.remove(cursoEncontrado)
                         println("\u001B[32mCurso Apagado com Sucesso!\u001B[0m")
                     }
-                }else{
+                } else {
                     cursos.remove(cursoEncontrado)
                     println("\u001B[32mCurso Apagado com Sucesso!\u001B[0m")
                 }
@@ -233,14 +234,14 @@ class DigitalHouseManager {
             else -> {
                 println(curso)
                 println("\u001B[0m-------------------------------")
-                curso?.let{
-                if (it.alunosMatriculados.size > 0) {
-                    it.alunosMatriculados.forEach {aluno->
-                        println(aluno)
+                curso?.let {
+                    if (it.alunosMatriculados.size > 0) {
+                        it.alunosMatriculados.forEach { aluno ->
+                            println(aluno)
+                        }
+                    } else {
+                        println("Não há Alunos na Turma")
                     }
-                } else {
-                    println("Não há Alunos na Turma")
-                }
                 }
             }
         }
@@ -306,8 +307,8 @@ class DigitalHouseManager {
             !hasCurso -> println("\u001B[31mCurso Não encontrado!\u001B[0m")
         }
 
-        if(hasCurso && hasAdjunto && hasTitular){
-            curso?.let{
+        if (hasCurso && hasAdjunto && hasTitular) {
+            curso?.let {
                 it.professorAdjunto = adjunto
                 it.professorTitular = titular
                 println("\u001B[32mProfessores Alocados com Sucesso!\u001B[0m")
@@ -354,26 +355,26 @@ class DigitalHouseManager {
             !hasCurso -> println("\u001B[31mCurso não Encontrado!\u001B[0m")
             alunoMatriculado -> println("\u001B[31mAluno já Matriculado no Curso!\u001B[0m")
             hasAluno && hasCurso && !alunoMatriculado -> {
-                curso?.let{c->
-                aluno?.let {
-                    if (c.adicionarAluno(it)) {
-                        val matriculaAluno = Matricula(it, c)
-                        matriculas.add(matriculaAluno)
-                       // curso.alunosMatriculados.add((it))
-                        c.getVagasDisponiveis()
-                        println(matriculaAluno)
+                curso?.let { c ->
+                    aluno?.let {
+                        if (c.adicionarAluno(it)) {
+                            val matriculaAluno = Matricula(it, c)
+                            matriculas.add(matriculaAluno)
+                            // curso.alunosMatriculados.add((it))
+                            c.getVagasDisponiveis()
+                            println(matriculaAluno)
 
-                        println("\u001B[32mAluno foi matriculado no Curso!\u001B[0m")
-                    } else {
-                        println("\u001B[31mNão há vagas Disponíveis no Curso!\u001B[0m")
+                            println("\u001B[32mAluno foi matriculado no Curso!\u001B[0m")
+                        } else {
+                            println("\u001B[31mNão há vagas Disponíveis no Curso!\u001B[0m")
+                        }
                     }
-                }
                 }
             }
         }
     }
 
-    fun excluirMatriculaAluno(codigoAluno: Int,codigoCurso: Int){
+    fun excluirMatriculaAluno(codigoAluno: Int, codigoCurso: Int) {
 
         var hasCurso = false
         var hasAluno = false
@@ -405,7 +406,7 @@ class DigitalHouseManager {
             it.alunosMatriculados.forEach { a ->
                 if (a.equalsCodigo(codigoAluno)) {
                     alunoMatriculado = true
-                    aluno?.let {aluno ->
+                    aluno?.let { aluno ->
                         matricula = returnMatriculaAluno(aluno)
                     }
                 }
@@ -428,9 +429,10 @@ class DigitalHouseManager {
 
         when {
             alunos.contains(aluno) -> println("\u001B[31mJá Tem Aluno com esse Código\u001B[0m")
-            else ->   {
+            else -> {
                 println("\u001B[32mAluno Registrado com Sucesso!\u001B[0m")
-                alunos.add(aluno)}
+                alunos.add(aluno)
+            }
         }
 
     }

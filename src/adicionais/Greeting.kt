@@ -2,7 +2,7 @@ package adicionais
 
 import java.util.*
 
-fun Greeting():String{
+fun Greeting(): String {
     val calendar = Calendar.getInstance()
 
     return when (calendar.get(Calendar.HOUR_OF_DAY)) {
